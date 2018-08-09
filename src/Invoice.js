@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 
 import InvoiceLine from './InvoiceLine.js'
-import InvoiceLineHeader from './InvoiceLineHeader.js'
 
 const DATA = {
   firstName: 'JOHN',
@@ -39,40 +38,94 @@ class Invoice extends Component {
               <div className="title">Invoice</div>
 
               <div className="content">
-                <div className="dark bold">INVOICE REFERENCE</div>
-                <div className="black bold">#XXX00001</div>
-                <hr />
+                <div className="row">
+                  <div className="col-xs-6"><span className="dark bold">Invoice Reference</span></div>
+                  <div className="col-xs-6"><span className="black bold">#XXX00001</span></div>
+                </div>
+                <div className="row">
+                  <div className="col-xs-6"><span className="dark bold">Invoice Reference</span></div>
+                  <div className="col-xs-6"><span className="black bold">#XXX00001</span></div>
+                </div>
+                <div className="row">
+                  <div className="col-xs-6"><span className="dark bold">Invoice Reference</span></div>
+                  <div className="col-xs-6"><span className="black bold">#XXX00001</span></div>
+                </div>
+                <div className="row">
+                  <div className="col-xs-6"><span className="dark bold">Invoice Reference</span></div>
+                  <div className="col-xs-6"><span className="black bold">#XXX00001</span></div>
+                </div>
               </div>
             </div>
           </div>
         </div>
 
         <br />
+        <br />
 
-        <InvoiceLineHeader />
+        <div className="row">
+          <div className="col-xs-5 col-left">
+            <div className="section section-left">
+              <div className="text left dark bold">Description</div>
+            </div>
+          </div>
+          <div className="col-xs-3">
+            <div className="section">
+              <div className="text left dark bold">Unit Price</div>
+            </div>
+          </div>
+          <div className="col-xs-2">
+            <div className="section">
+              <div className="text left dark bold">Qty</div>
+            </div>
+          </div>
+          <div className="col-xs-2">
+            <div className="section">
+              <div className="text left dark bold">Amount</div>
+            </div>
+          </div>
+        </div>
+
+        <br />
 
         <InvoiceLine description={"description goes here, asdkjhasdf asdf asd fasd fas df asdf asdf asdf asd fas dfa sdf asdfa sfd"} unitPrice={1000} quantity={1} total={1000} />
         <hr />
         <InvoiceLine description={"description goes here"} unitPrice={1000} quantity={1} total={1000} />
         <hr />
         <InvoiceLine description={"description goes here"} unitPrice={1000} quantity={1} total={1000} />
-        <hr />
+
+        <br />
+        <br />
+
+        <div className="row">
+          <div className="col-xs-8"></div>
+          <div className="col-xs-2">
+            <div className="section section-left">
+              <div className="text left dark bold">Subtotal</div>
+              <div className="text left dark bold">GST</div>
+            </div>
+          </div>
+
+          <div className="col-xs-2">
+            <div className="section section-left">
+              <div className="text left black bold">$3000</div>
+              <div className="text left black bold">$300</div>
+            </div>
+          </div>
+        </div>
 
         <br />
 
         <div className="row">
-          <div className="col-xs-8 col-right"></div>
-          <div className="col-xs-2 col-right">
+          <div className="col-xs-8"></div>
+          <div className="col-xs-2">
             <div className="section section-left">
-              <div className="text right black bold">Subtotal</div>
-              <div className="text right black bold">GST</div>
+              <div className="text left dark bold">Total Due</div>
             </div>
           </div>
 
-          <div className="col-xs-2 col-right">
+          <div className="col-xs-2">
             <div className="section section-left">
-              <div className="text right black bold">$3000</div>
-              <div className="text right black bold">$300</div>
+              <div className="text left black bold">$3300</div>
             </div>
           </div>
         </div>

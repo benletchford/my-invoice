@@ -18,7 +18,7 @@ br {
 .App {
   height: 297mm;
   width: 210mm;
-  outline: 1px black solid;
+  /* outline: 1px black solid; */
   margin: 0 auto;
 }
 .light, .hover-light:hover {
