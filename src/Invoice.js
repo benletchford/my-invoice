@@ -17,7 +17,13 @@ class Invoice extends Component {
 
         <hr />
 
-        <div className="abn light">ABN: 00 000 000 000</div>
+        <div className="abn-and-invoice-id">
+          <div className="abn bold dark">ABN: 00 000 000 000</div>
+          <div className="invoice-id">
+            <span className="bold dark">Invoice: </span>
+            <span className="bold black">#XXX00001</span>
+          </div>
+        </div>
 
         <br />
 
@@ -35,24 +41,12 @@ class Invoice extends Component {
           </div>
           <div className="col-xs-7 col-right">
             <div className="section section-right">
-              <div className="title">Invoice</div>
+              <div className="title">Payment Method</div>
 
               <div className="content">
                 <div className="row">
-                  <div className="col-xs-6"><span className="dark bold">Invoice Reference</span></div>
-                  <div className="col-xs-6"><span className="black bold">#XXX00001</span></div>
-                </div>
-                <div className="row">
-                  <div className="col-xs-6"><span className="dark bold">Invoice Reference</span></div>
-                  <div className="col-xs-6"><span className="black bold">#XXX00001</span></div>
-                </div>
-                <div className="row">
-                  <div className="col-xs-6"><span className="dark bold">Invoice Reference</span></div>
-                  <div className="col-xs-6"><span className="black bold">#XXX00001</span></div>
-                </div>
-                <div className="row">
-                  <div className="col-xs-6"><span className="dark bold">Invoice Reference</span></div>
-                  <div className="col-xs-6"><span className="black bold">#XXX00001</span></div>
+                  <div className="col-xs-5"><span className="dark bold">Invoice Reference</span></div>
+                  <div className="col-xs-7"><span className="black bold">#XXX00001</span></div>
                 </div>
               </div>
             </div>
@@ -129,6 +123,11 @@ class Invoice extends Component {
             </div>
           </div>
         </div>
+
+        <br />
+        <br />
+
+        <div className="dark italic center">Thank you for your business.</div>
 
       </div>
     )
