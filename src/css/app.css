@@ -1,0 +1,15 @@
+body {
+  font-family: "Ubuntu Mono";
+}
+.App {
+  height: 297mm;
+  width: 210mm;
+  outline: 1px black solid;
+  margin: 0 auto;
+}
+.light, .hover-light:hover {
+  color: #b6b6b6;
+}
+.dark, .hover-dark:hover {
+  color: #485e48;
+}
