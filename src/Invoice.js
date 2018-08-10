@@ -10,6 +10,7 @@ const DATA = window.location.hash ? decodeObject(window.location.hash.substring(
   lastName: 'SMITH',
   abn: '00 000 000 000',
   invoiceCode: 'XXX00001',
+  invoiceDate: '08/08/2018',
   totals: {
     subtotal: 3000,
     gst: 300,
@@ -54,8 +55,9 @@ class Invoice extends Component {
         <div className="abn-and-invoice-id">
           <div className="abn bold dark">ABN: {DATA.abn}</div>
           <div className="invoice-id">
-            <span className="bold dark">Invoice: </span>
-            <span className="bold black">#{DATA.invoiceCode}</span>
+            <span className="bold dark">Tax Invoice: </span><span className="">#{DATA.invoiceCode}</span>
+            <br />
+            <span className="bold dark">Date: </span><span className="">{DATA.invoiceDate}</span>
           </div>
         </div>
 
