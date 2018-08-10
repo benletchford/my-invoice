@@ -2,9 +2,43 @@ import React, { Component } from 'react';
 
 import InvoiceLine from './InvoiceLine.js'
 
-const DATA = {
+function decodeObject(obj) {
+  return JSON.parse(decodeURIComponent(escape(window.atob(obj))));
+}
+const DATA = window.location.hash ? decodeObject(window.location.hash.substring(1)) : {
   firstName: 'JOHN',
-  lastName: 'SMITH'
+  lastName: 'SMITH',
+  abn: '00 000 000 000',
+  invoiceCode: 'XXX00001',
+  totals: {
+    subtotal: 3000,
+    gst: 300,
+    total: 3300
+  },
+  billTo: [
+    "Bob Jane",
+    "1 Pizza Street",
+    "Sydney, NSW 2000"
+  ],
+  notes: 'Time is billed in 15 minute increments.',
+  lines: [
+    {description: 'description goes here', unitPrice: 1000, quantity: 1, amount: 2},
+    {description: 'description goes here', unitPrice: 1000, quantity: 1, amount: 2},
+    {description: 'description goes here', unitPrice: 1000, quantity: 1, amount: 2},
+    {description: 'description goes here', unitPrice: 1000, quantity: 1, amount: 2},
+    {description: 'description goes here', unitPrice: 1000, quantity: 1, amount: 2},
+  ],
+  paymentMethods: [
+    {
+      methodName: 'Bank Transfer',
+      fields: [
+        {field: 'Account Name', value: 'John Smith'},
+        {field: 'BSB', value: '000000'},
+        {field: 'Account Number', value: '000000'},
+        {field: 'Reference', value: 'XXX00001'}
+      ]
+    }
+  ]
 }
 
 class Invoice extends Component {
@@ -12,16 +46,16 @@ class Invoice extends Component {
     return (
       <div>
         <div className="invoice-title">
-          <span class="blue bold">{DATA.firstName}</span><span class="dark">{DATA.lastName}</span>
+          <span className="blue bold">{DATA.firstName}</span><span className="dark">{DATA.lastName}</span>
         </div>
 
         <hr />
 
         <div className="abn-and-invoice-id">
-          <div className="abn bold dark">ABN: 00 000 000 000</div>
+          <div className="abn bold dark">ABN: {DATA.abn}</div>
           <div className="invoice-id">
             <span className="bold dark">Invoice: </span>
-            <span className="bold black">#XXX00001</span>
+            <span className="bold black">#{DATA.invoiceCode}</span>
           </div>
         </div>
 
@@ -33,21 +67,9 @@ class Invoice extends Component {
               <div className="title">Bill To</div>
 
               <div className="content">
-                <div className="black bold">Bob Jane</div>
-                <div className="black bold">1 Pizza Street</div>
-                <div className="black bold">Sydney, NSW 2000</div>
-              </div>
-            </div>
-          </div>
-          <div className="col-xs-7 col-right">
-            <div className="section section-right">
-              <div className="title">Payment Method</div>
-
-              <div className="content">
-                <div className="row">
-                  <div className="col-xs-5"><span className="dark bold">Invoice Reference</span></div>
-                  <div className="col-xs-7"><span className="black bold">#XXX00001</span></div>
-                </div>
+                {Array.apply(null, DATA.billTo).map(function(item, i){
+                  return (<div key={"bill-to-text-" + i} className="">{item}</div>)
+                }, this)}
               </div>
             </div>
           </div>
@@ -81,11 +103,9 @@ class Invoice extends Component {
 
         <br />
 
-        <InvoiceLine description={"description goes here, asdkjhasdf asdf asd fasd fas df asdf asdf asdf asd fas dfa sdf asdfa sfd"} unitPrice={1000} quantity={1} total={1000} />
-        <hr />
-        <InvoiceLine description={"description goes here"} unitPrice={1000} quantity={1} total={1000} />
-        <hr />
-        <InvoiceLine description={"description goes here"} unitPrice={1000} quantity={1} total={1000} />
+        {Array.apply(null, DATA.lines).map(function(line, i){
+          return (<InvoiceLine key={"line-" + i} description={line.description} unitPrice={line.unitPrice} quantity={line.quantity} total={line.amount} />)
+        }, this)}
 
         <br />
         <br />
@@ -101,8 +121,8 @@ class Invoice extends Component {
 
           <div className="col-xs-2">
             <div className="section section-left">
-              <div className="text left black bold">$3000</div>
-              <div className="text left black bold">$300</div>
+              <div className="text left black bold">${DATA.totals.subtotal}</div>
+              <div className="text left black bold">${DATA.totals.gst}</div>
             </div>
           </div>
         </div>
@@ -119,10 +139,59 @@ class Invoice extends Component {
 
           <div className="col-xs-2">
             <div className="section section-left">
-              <div className="text left black bold">$3300</div>
+              <div className="text left black bold">${DATA.totals.total}</div>
             </div>
           </div>
         </div>
+
+        <br />
+        <div className="row">
+          <div className="col-xs-5 col-left">
+            <div className="section section-left">
+              <div className="title">Notes</div>
+
+              <div className="content">
+                {DATA.notes}
+              </div>
+            </div>
+          </div>
+
+          <div className="col-xs-7 col-right">
+            <div className="section section-right">
+              <div className="title">Payment Method</div>
+
+              <div className="content">
+              {Array.apply(null, DATA.paymentMethods).map(function(method, i){
+                return (
+                  <div>
+                    <div className="row" key={"payment-method-row-" + i}>
+                      <div className="col-xs-5"><span className="black bold">{method.methodName}</span></div>
+                    </div>
+                    <br />
+                    {Array.apply(null, method.fields).map(function(item, j){
+                      return (
+                        <div className="row" key={"payment-method-field-row-" + j + '-' + i}>
+                          <div className="col-xs-5"><span className="dark bold">{item.field}</span></div>
+                          <div className="col-xs-7"><span className="black bold">{item.value}</span></div>
+                        </div>
+                      )
+                    }, this)}
+                  </div>
+                )
+              }, this)}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {Array.apply(null, DATA.paymentMethod).map(function(item, j){
+          return (
+            <div className="row" key={"payment-method-row-" + j}>
+              <div className="col-xs-5"><span className="dark bold">{DATA.paymentMethod[j].field}</span></div>
+              <div className="col-xs-7"><span className="black bold">{DATA.paymentMethod[j].value}</span></div>
+            </div>
+          )
+        }, this)}
 
         <br />
         <br />
