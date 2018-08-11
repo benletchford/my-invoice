@@ -9,14 +9,19 @@ class InvoiceLine extends Component {
             <div className="text left black bold">{this.props.description}</div>
           </div>
         </div>
-        <div className="col-xs-3">
+        <div className="col-xs-1">
+          <div className="section">
+            <div className="text left black bold">{this.props.quantity}</div>
+          </div>
+        </div>
+        <div className="col-xs-2">
           <div className="section">
             <div className="text left black bold">${this.props.unitPrice}</div>
           </div>
         </div>
         <div className="col-xs-2">
           <div className="section">
-            <div className="text left black bold">{this.props.quantity}</div>
+            <div className="text left black bold">{this.props.gst}</div>
           </div>
         </div>
         <div className="col-xs-2">

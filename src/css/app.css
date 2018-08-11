@@ -49,6 +49,9 @@ br {
 .text {
   font-size: 1.3em;
 }
+.no-padding {
+  padding: 0;
+}
 
 .invoice-title {
   text-align: right;

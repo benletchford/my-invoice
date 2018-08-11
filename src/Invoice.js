@@ -23,11 +23,11 @@ const DATA = window.location.hash ? decodeObject(window.location.hash.substring(
   ],
   notes: 'Time is billed in 15 minute increments.',
   lines: [
-    {description: 'description goes here', unitPrice: 1000, quantity: 1, amount: 2},
-    {description: 'description goes here', unitPrice: 1000, quantity: 1, amount: 2},
-    {description: 'description goes here', unitPrice: 1000, quantity: 1, amount: 2},
-    {description: 'description goes here', unitPrice: 1000, quantity: 1, amount: 2},
-    {description: 'description goes here', unitPrice: 1000, quantity: 1, amount: 2},
+    {description: 'description goes here', unitPrice: 1000, quantity: 100, amount: 20000, gst: '10%'},
+    {description: 'description goes here', unitPrice: 1000, quantity: 100, amount: 20000, gst: '10%'},
+    {description: 'description goes here', unitPrice: 1000, quantity: 100, amount: 20000, gst: '10%'},
+    {description: 'description goes here', unitPrice: 1000, quantity: 100, amount: 20000, gst: '10%'},
+    {description: 'description goes here', unitPrice: 1000, quantity: 100, amount: 20000, gst: '10%'},
   ],
   paymentMethods: [
     {
@@ -86,14 +86,19 @@ class Invoice extends Component {
               <div className="text left dark bold">Description</div>
             </div>
           </div>
-          <div className="col-xs-3">
+          <div className="col-xs-1">
+            <div className="section">
+              <div className="text left dark bold">Qty</div>
+            </div>
+          </div>
+          <div className="col-xs-2">
             <div className="section">
               <div className="text left dark bold">Unit Price</div>
             </div>
           </div>
           <div className="col-xs-2">
             <div className="section">
-              <div className="text left dark bold">Qty</div>
+              <div className="text left dark bold">GST</div>
             </div>
           </div>
           <div className="col-xs-2">
@@ -106,7 +111,12 @@ class Invoice extends Component {
         <br />
 
         {Array.apply(null, DATA.lines).map(function(line, i){
-          return (<InvoiceLine key={"line-" + i} description={line.description} unitPrice={line.unitPrice} quantity={line.quantity} total={line.amount} />)
+          return (
+            <div>
+              <InvoiceLine key={"line-" + i} description={line.description} unitPrice={line.unitPrice} quantity={line.quantity} total={line.amount} gst={line.gst}/>
+              {(i !== DATA.lines.length - 1) ? <hr /> : ''}
+            </div>
+          )
         }, this)}
 
         <br />
