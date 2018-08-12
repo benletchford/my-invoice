@@ -1,44 +1,43 @@
 import React, { Component } from 'react';
 
+import moment from 'moment';
+
 import InvoiceLine from './InvoiceLine.js'
+import { toFixed } from './utils.js'
 
 function decodeObject(obj) {
   return JSON.parse(decodeURIComponent(escape(window.atob(obj))));
 }
+
 const DATA = window.location.hash ? decodeObject(window.location.hash.substring(1)) : {
-  firstName: 'JOHN',
-  lastName: 'SMITH',
-  abn: '00 000 000 000',
-  invoiceCode: 'XXX00001',
-  invoiceDate: '08/08/2018',
-  invoiceDueDate: '08/09/2018',
-  totals: {
-    subtotal: 3000,
-    gst: 300,
-    total: 3300
-  },
+  'First Name': 'JOHN',
+  'Last Name': 'SMITH',
+  'ABN': '00 000 000 000',
+  'Invoice Code': 'XXX00001',
+  'Invoice Date': '2018-08-08',
+  'Invoice Due Date': '2018-09-08',
+  'Total (excl GST)': 3000,
+  'Total (incl GST)': 300,
+  'GST': 300,
   billTo: [
     "Bob Jane",
     "1 Pizza Street",
     "Sydney, NSW 2000"
   ],
-  notes: 'Time is billed in 15 minute increments.',
+  Notes: 'Time is billed in 15 minute increments.',
   lines: [
-    {item: 'Development', description: 'description goes here', unitPrice: 1000, quantity: 100, amount: 20000, gst: '10%'},
-    {item: 'Support', description: 'description goes here', unitPrice: 1000, quantity: 100, amount: 20000, gst: '10%'},
-    {item: 'Support', description: 'description goes here', unitPrice: 1000, quantity: 100, amount: 20000, gst: '10%'},
-    {item: 'Support', description: 'description goes here', unitPrice: 1000, quantity: 100, amount: 20000, gst: '10%'},
-    {item: 'Software Development', description: 'description goes here', unitPrice: 1000, quantity: 100, amount: 20000, gst: '10%'},
+    {'Item': 'Development', 'Description': 'description goes here', 'Unit Price': 1000, 'Qty': 100, 'Total (excl GST)': 20000, 'GST': '10%'},
+    {'Item': 'Development', 'Description': 'description goes here', 'Unit Price': 1000, 'Qty': 100, 'Total (excl GST)': 20000, 'GST': '10%'},
+    {'Item': 'Development', 'Description': 'description goes here', 'Unit Price': 1000, 'Qty': 100, 'Total (excl GST)': 20000, 'GST': '10%'},
+    {'Item': 'Development', 'Description': 'description goes here', 'Unit Price': 1000, 'Qty': 100, 'Total (excl GST)': 20000, 'GST': '10%'}
   ],
-  paymentMethods: [
+  'paymentMethods': [
     {
-      methodName: 'Bank Transfer',
-      fields: [
-        {field: 'Account Name', value: 'John Smith'},
-        {field: 'BSB', value: '000000'},
-        {field: 'Account Number', value: '000000'},
-        {field: 'Reference', value: 'XXX00001'}
-      ]
+      'Method Name': 'Bank Transfer',
+      'Account Name': 'John Smith',
+      'Account Number': '000000',
+      'BSB': '000000',
+      'Reference': 'XXX00001'
     }
   ]
 }
@@ -48,19 +47,19 @@ class Invoice extends Component {
     return (
       <div>
         <div className="invoice-title">
-          <span className="blue bold">{DATA.firstName}</span><span className="dark">{DATA.lastName}</span>
+          <span className="blue bold">{DATA['First Name']}</span><span className="dark">{DATA['Last Name']}</span>
         </div>
 
         <hr />
 
         <div className="abn-and-invoice-id">
-          <div className="abn bold dark">ABN: {DATA.abn}</div>
+          <div className="abn bold dark">ABN: {DATA['ABN']}</div>
           <div className="invoice-id">
-            <span className="bold dark">Tax Invoice: </span><span className="">#{DATA.invoiceCode}</span>
+            <span className="bold dark">Tax Invoice: </span><span className="">#{DATA['Invoice Code']}</span>
             <br />
-            <span className="bold dark">Date: </span><span className="">{DATA.invoiceDate}</span>
+            <span className="bold dark">Date: </span><span className="">{moment(DATA['Invoice Date']).format('DD/MM/YYYY')}</span>
             <br />
-            <span className="bold dark">Due Date: </span><span className="">{DATA.invoiceDueDate}</span>
+            <span className="bold dark">Due Date: </span><span className="">{moment(DATA['Invoice Due Date']).format('DD/MM/YYYY')}</span>
           </div>
         </div>
 
@@ -85,7 +84,7 @@ class Invoice extends Component {
         <br />
 
         <div className="row">
-          <div className="col-xs-2 col-left">
+          <div className="col-xs-2 col-right">
             <div className="section section-left">
               <div className="text left dark bold">Item</div>
             </div>
@@ -116,8 +115,8 @@ class Invoice extends Component {
 
         {Array.apply(null, DATA.lines).map(function(line, i){
           return (
-            <div>
-              <InvoiceLine key={"line-" + i} item={line.item} description={line.description} unitPrice={line.unitPrice} quantity={line.quantity} total={line.amount} gst={line.gst}/>
+            <div key={"line-" + i}>
+              <InvoiceLine line={line} />
               {(i !== DATA.lines.length - 1) ? <hr /> : ''}
             </div>
           )
@@ -137,8 +136,8 @@ class Invoice extends Component {
 
           <div className="col-xs-2">
             <div className="section section-left">
-              <div className="text left black bold">${DATA.totals.subtotal}</div>
-              <div className="text left black bold">${DATA.totals.gst}</div>
+              <div className="text left black bold">${toFixed(DATA['Total (excl GST)'])}</div>
+              <div className="text left black bold">${toFixed(DATA['GST'])}</div>
             </div>
           </div>
         </div>
@@ -155,7 +154,7 @@ class Invoice extends Component {
 
           <div className="col-xs-2">
             <div className="section section-left">
-              <div className="text left black bold">${DATA.totals.total}</div>
+              <div className="text left black bold">${toFixed(DATA['Total (incl GST)'])}</div>
             </div>
           </div>
         </div>
@@ -167,7 +166,7 @@ class Invoice extends Component {
               <div className="title">Notes</div>
 
               <div className="content">
-                {DATA.notes}
+                {DATA['Notes']}
               </div>
             </div>
           </div>
@@ -179,19 +178,25 @@ class Invoice extends Component {
               <div className="content">
               {Array.apply(null, DATA.paymentMethods).map(function(method, i){
                 return (
-                  <div>
-                    <div className="row" key={"payment-method-row-" + i}>
-                      <div className="col-xs-5"><span className="black bold">{method.methodName}</span></div>
+                  <div key={"payment-method-row-" + i}>
+                    <div className="row">
+                      <div className="col-xs-5"><span className="black bold">{method['Method Name']}</span></div>
                     </div>
                     <br />
-                    {Array.apply(null, method.fields).map(function(item, j){
-                      return (
-                        <div className="row" key={"payment-method-field-row-" + j + '-' + i}>
-                          <div className="col-xs-5"><span className="dark bold">{item.field}</span></div>
-                          <div className="col-xs-7"><span className="black bold">{item.value}</span></div>
-                        </div>
-                      )
-                    }, this)}
+                    {Array.apply(null, Object.keys(method)).map(function(key, i){
+                        if(key === 'Method Name') return ('')
+
+                        return (
+                          <div className="row" key={"method-field-" + i + '-' + key}>
+                            <div className="col-xs-5"><span className="dark bold">{key}</span></div>
+                            <div className="col-xs-7"><span className="black bold">{method[key]}</span></div>
+                          </div>
+                        )
+                    })}
+                    <div className="row">
+                      <div className="col-xs-5"><span className="dark bold">Reference</span></div>
+                      <div className="col-xs-7"><span className="black bold">{DATA['Invoice Code']}</span></div>
+                    </div>
                   </div>
                 )
               }, this)}
