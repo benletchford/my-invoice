@@ -11,6 +11,7 @@ const DATA = window.location.hash ? decodeObject(window.location.hash.substring(
   abn: '00 000 000 000',
   invoiceCode: 'XXX00001',
   invoiceDate: '08/08/2018',
+  invoiceDueDate: '08/09/2018',
   totals: {
     subtotal: 3000,
     gst: 300,
@@ -23,11 +24,11 @@ const DATA = window.location.hash ? decodeObject(window.location.hash.substring(
   ],
   notes: 'Time is billed in 15 minute increments.',
   lines: [
-    {description: 'description goes here', unitPrice: 1000, quantity: 100, amount: 20000, gst: '10%'},
-    {description: 'description goes here', unitPrice: 1000, quantity: 100, amount: 20000, gst: '10%'},
-    {description: 'description goes here', unitPrice: 1000, quantity: 100, amount: 20000, gst: '10%'},
-    {description: 'description goes here', unitPrice: 1000, quantity: 100, amount: 20000, gst: '10%'},
-    {description: 'description goes here', unitPrice: 1000, quantity: 100, amount: 20000, gst: '10%'},
+    {item: 'Development', description: 'description goes here', unitPrice: 1000, quantity: 100, amount: 20000, gst: '10%'},
+    {item: 'Support', description: 'description goes here', unitPrice: 1000, quantity: 100, amount: 20000, gst: '10%'},
+    {item: 'Support', description: 'description goes here', unitPrice: 1000, quantity: 100, amount: 20000, gst: '10%'},
+    {item: 'Support', description: 'description goes here', unitPrice: 1000, quantity: 100, amount: 20000, gst: '10%'},
+    {item: 'Software Development', description: 'description goes here', unitPrice: 1000, quantity: 100, amount: 20000, gst: '10%'},
   ],
   paymentMethods: [
     {
@@ -58,13 +59,16 @@ class Invoice extends Component {
             <span className="bold dark">Tax Invoice: </span><span className="">#{DATA.invoiceCode}</span>
             <br />
             <span className="bold dark">Date: </span><span className="">{DATA.invoiceDate}</span>
+            <br />
+            <span className="bold dark">Due Date: </span><span className="">{DATA.invoiceDueDate}</span>
           </div>
         </div>
 
         <br />
+        <br />
 
         <div className="row">
-          <div className="col-xs-5 col-left">
+          <div className="col-xs-6 col-left">
             <div className="section section-left">
               <div className="title">Bill To</div>
 
@@ -81,12 +85,17 @@ class Invoice extends Component {
         <br />
 
         <div className="row">
-          <div className="col-xs-5 col-left">
+          <div className="col-xs-2 col-left">
+            <div className="section section-left">
+              <div className="text left dark bold">Item</div>
+            </div>
+          </div>
+          <div className="col-xs-4 col-left">
             <div className="section section-left">
               <div className="text left dark bold">Description</div>
             </div>
           </div>
-          <div className="col-xs-1">
+          <div className="col-xs-2">
             <div className="section">
               <div className="text left dark bold">Qty</div>
             </div>
@@ -94,11 +103,6 @@ class Invoice extends Component {
           <div className="col-xs-2">
             <div className="section">
               <div className="text left dark bold">Unit Price</div>
-            </div>
-          </div>
-          <div className="col-xs-2">
-            <div className="section">
-              <div className="text left dark bold">GST</div>
             </div>
           </div>
           <div className="col-xs-2">
@@ -113,7 +117,7 @@ class Invoice extends Component {
         {Array.apply(null, DATA.lines).map(function(line, i){
           return (
             <div>
-              <InvoiceLine key={"line-" + i} description={line.description} unitPrice={line.unitPrice} quantity={line.quantity} total={line.amount} gst={line.gst}/>
+              <InvoiceLine key={"line-" + i} item={line.item} description={line.description} unitPrice={line.unitPrice} quantity={line.quantity} total={line.amount} gst={line.gst}/>
               {(i !== DATA.lines.length - 1) ? <hr /> : ''}
             </div>
           )
@@ -158,7 +162,7 @@ class Invoice extends Component {
 
         <br />
         <div className="row">
-          <div className="col-xs-5 col-left">
+          <div className="col-xs-6 col-left">
             <div className="section section-left">
               <div className="title">Notes</div>
 
@@ -168,7 +172,7 @@ class Invoice extends Component {
             </div>
           </div>
 
-          <div className="col-xs-7 col-right">
+          <div className="col-xs-6 col-right">
             <div className="section section-right">
               <div className="title">Payment Method</div>
 

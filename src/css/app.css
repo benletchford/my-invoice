@@ -59,8 +59,9 @@ br {
   margin-bottom: -15px;
 }
 .invoice-id {
+  float: left;
   text-align: left;
-  font-size: 1.8em;
+  font-size: 1.3em;
 }
 .abn {
   float: right;
