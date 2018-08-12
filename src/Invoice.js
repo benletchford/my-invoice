@@ -36,8 +36,7 @@ const DATA = window.location.hash ? decodeObject(window.location.hash.substring(
       'Method Name': 'Bank Transfer',
       'Account Name': 'John Smith',
       'Account Number': '000000',
-      'BSB': '000000',
-      'Reference': 'XXX00001'
+      'BSB': '000000'
     }
   ]
 }
